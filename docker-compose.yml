@@ -1,0 +1,21 @@
+version: '2'
+services:
+  php-fpm:
+    container_name: php-fpm
+    build:
+      context: ./php-fpm
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+  syslog:
+    image: redmatter/rsyslog
+    container_name: syslog
+    volumes:
+      - /tmp/rsyslog-dev:/rsyslog:rw,cached
+  logger:
+    image: debian
+    volumes_from:
+      - syslog
